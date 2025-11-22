@@ -210,7 +210,7 @@ def chat_fn(message, history):
 
         # Story-style explanation so it feels “AI-like”
         story = (
-            "🏠 **Smart Climate Assistant Insight**\n"
+            " **Smart Climate Assistant Insight**\n"
             "I analysed your room using indoor/outdoor temperature, CO₂ and lighting. "
             "From these I inferred how likely the room is occupied and how the temperature "
             "will move in the next 15 minutes. Based on that, I chose the HVAC action "
@@ -238,7 +238,7 @@ def chat_fn(message, history):
             f"{story}\n\n"
             f"{details}\n\n"
             f"---\n"
-            f"### ✅ Final Recommendation\n"
+            f"###  Final Recommendation\n"
             f"**{recommendation}**"
         )
 
