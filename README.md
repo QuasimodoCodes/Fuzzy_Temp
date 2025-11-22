@@ -1,117 +1,102 @@
-# Smart HVAC Fuzzy Assistant
+#  Smart HVAC Fuzzy Assistant
 
-- Predict temperature 
-- Detect Occupancy
-- Decide HEAT/COOL/OFF 
-- Explain using AI
+An intelligent building assistant designed to make smart, explainable heating, ventilation, and air conditioning (HVAC) decisions.
 
-This project implement an intelligence building assistant using:
-- Fuzzy logic for occupancy detection.
-- A Mamdani FIS that choose HEAT/COOL/IDLE/OFF
-- An LLM (OpenAI) to generate human friendly explanations.
-- A Gradio chatbot UI and deploy on Hugging Face Spaces.
+##  Live Demo
 
-This assistant can answer the question: 
-"Should the HACV" heat, cool, idle or turn off in the next 15 minutes?"
-In order to get the value, the user need to send the value of (indoor, outdoor, CO2 and lighting) For example: 21, 12, 400, 60. The model wil then:
+Try the interactive chatbot below:
 
-1) Fuzzy Occupancy detection
-Uses CO2 and Lightning to infer occupancy in [0-1].
-   - Low CO2 and Dark room = Room is empty.
-   - High CO2 and Bright room = Room is occupied.
-   - Use 6 fuzzy rules with membership functions fot low/medium and high.
+**[Open the Fuzzy Room Temperature Assistant](https://huggingface.co/spaces/chonthichar/fuzzy-room-temperature-assistant)**
 
-2) Fuzzy predict (15 minutes ahead)
-Predict temperature change using the inputs:
-   - Indoor temperature.
-   - Outdoor temperature.
-     - Fuzzy occupancy. 
-Use a Mamdani fuzzy inference system trained from the SML2010 dataset.
+* **Predict Temperature** ($\Delta T$ in 15 mins)
+* **Detect Occupancy** (Fuzzy level [0-1])
+* **Decide HEAT/COOL/OFF** (Optimal action)
+* **Explain using AI** (Transparent decision-making)
 
-3) HVAC decision layer
-   - If room is occupied:
-     - Too cold = HEAT_ON
-     - Too warm = COOL_ON
-       - Comfortable = IDLE
-   - If empty = Turn off HVAC to save eneergy.
+---
 
-4) AI generated explanations (using OpenAI)
-The assistant not only returns numbers and nicely explanations:
-   - Why the temperature will change.
-   - Why HEAT/COOL/OFF was chosen.
-   - Why occupancy was inferred.
-   - What is the best energy action should be.
+##  Project Implementation & Core Logic
 
-5) Gradio chat interface:
-User can ask : 
+This assistant uses a combination of technologies: **Fuzzy Logic** for occupancy and prediction, a **Mamdani FIS** for action selection, an **OpenAI LLM** for explanations, and **Gradio** for the UI.
 
-        - 21 12 400 60
+The assistant answers the question: *"Should the HVAC system heat, cool, idle, or turn off in the next 15 minutes?"*
 
-Or natural questions like
+**Example Input:** The user provides the sensor data: `21, 12, 400, 60` (Indoor Temp, Outdoor Temp, CO₂, Lighting).
 
-        - Who are you?
-        - What should HVAC do?
-        - Explain the decision
+### 1. Fuzzy Occupancy Detection
 
-### Project structure
+Uses CO₂ and Lighting levels to infer occupancy in the range **[0-1]**.
 
+* **Rule Example:** Low CO₂ and Dark room $\rightarrow$ Room is empty. High CO₂ and Bright room $\rightarrow$ Room is occupied.
+* **Mechanism:** Uses **6 fuzzy rules** with membership functions for **low/medium** and **high** inputs.
 
+### 2. Fuzzy Temperature Prediction (15 Minutes Ahead)
 
+Predicts the temperature change ($\Delta T$) using a Mamdani FIS trained on the SML2010 dataset.
 
-### How to run the code?
-We have two different:
-1) The whole pipeline include visualization inside Jupyter Notebook called : Fuzzy_system.ipynb
-2) fuzzy-room-temperature-assistant/
+* **Inputs:** Indoor Temperature, Outdoor Temperature, and Fuzzy Occupancy (from Step 1).
 
-          │
-          ├── app.py                 # Gradio + OpenAI chatbot
-          ├── fuzzy_backend.py       # Full fuzzy logic engine
-          ├── NEW-DATA-1.T15.txt     # SML2010 dataset slice
-          ├── requirements.txt
-          └── README.md
+### 3. HVAC Decision Layer
 
-How to run AI assistant: 
-1) Users sends 4 numbers: indoor, outdoor, CO2 and lighting
+Determines the final HVAC action based on the predicted future state:
 
-        - 21 12 400 60
+* **If room is occupied:** Too cold $\rightarrow$ **HEAT\_ON** | Too warm $\rightarrow$ **COOL\_ON** | Comfortable $\rightarrow$ **IDLE**
+* **If room is empty:** Turn **OFF** HVAC to save energy.
 
-2) Backend compute
-- Fuzzy occupacy
-- ΔT (predicted change)
-- T_Future (temperature in 15 minutes)
-- HVAC action (HEAT/ COOL/ OFF and IDLE)
+### 4. AI Generated Explanations (using OpenAI)
 
-3) LLM converts outputs into natural explanations
-Example 
+The LLM generates comprehensive, natural explanations that include: Why the temperature is predicted to change, why **HEAT/COOL/OFF** was chosen, why the specific **occupancy** was inferred, and what the **best energy action** should be.
+
+### 5. Gradio Chat Interface
+
+The user can interact with the system by:
+
+* **Sending Sensor Data:**
+    ```
+    - 21 12 400 60
+    ```
+* **Asking Natural Questions:**
+    ```
+    - Who are you?
+    - What should HVAC do?
+    - Explain the decision
+    ```
+
+---
+
+##  Project Structure
+
+The project includes the full pipeline and visualization components: `Fuzzy_system.ipynb` contains the whole pipeline.
+
+The core assistant files are located under the `fuzzy-room-temperature-assistant/` directory:
 
 
-## Running locally:
-1) Git Clone
-2) Install deps
+##  Running Locally
 
-        -  pip install -r requirements.txt
+1.  **Git Clone:** Clone the project repository.
+2.  **Install Dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  **Add Your OpenAI Key:** Generate your key and set the environment variable:
+    ```bash
+    export OPENAI_API_KEY=your_key_here
+    ```
+4.  **Run Application:**
+    ```bash
+    python app.py
+    ```
 
-3) Add your OpenAI key go to website to genrate your API key
+##  Deployment Process
 
-        - export OPENAI_API_KEY=your_key_here
+This project is deployed on **Hugging Face Spaces** using **Gradio**. You can deploy by pushing the code to a Space, or by running the Jupyter Notebook `Fuzzy_system.ipynb` inside the Space.
 
-4) Run
+##  Dataset
 
-        - python app.py
+The model uses a slice of the **SML 2010 Smart Home Dataset**, specifically `NEW-DATA-1.T15.txt`.
 
-## Deployment process:
-This project is deployed on Hugging Face Spaces using Gradio. You just push your code to a space and it will auto generate or simple run Notbook insed to see a whole pipeline. 
+* **Data Included:** Indoor temperature, Outdoor temperature, CO₂ sensor, and Lighting.
 
-## Dataset
-This model use the SML 2010 Smart Home Dataset, specially NEW-DATA-1.T15.txt
+* **Dataset Source:** [https://archive.ics.uci.edu/ml/datasets/SML2010](https://archive.ics.uci.edu/ml/datasets/SML2010)
 
-Which includes :
-- Indoor temperature
-- Outdoor temperature
-- CO₂ sensor
-- Lighting
-
-Dataset Source:
-https://archive.ics.uci.edu/ml/datasets/SML2010
-
-Candanedo, Luis M., and Véronique Feldheim. “Accurate occupancy detection of an office building using near‐cost sensors.” Energy and Buildings 86 (2015): 273–282.
+* **Citation:** Candanedo, Luis M., and Véronique Feldheim. “Accurate occupancy detection of an office building using near‐cost sensors.” *Energy and Buildings* 86 (2015): 273–282.
