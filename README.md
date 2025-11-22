@@ -83,11 +83,17 @@ The project includes the full pipeline and visualization components. **For exami
 
 ---
 
-##  Full Notebook Version (Recommended for Examiner)
+
+##  Running Locally
+
+The project can be run in two ways:
+
+### Option 1: Easy Examination (Jupyter Notebook)
 
 The easiest way for the examiner to review and run the entire system is through:
 
-**`Fuzzy_system.ipynb`**
+1.  **Open `Fuzzy_system.ipynb`** in a Jupyter or Colab environment.
+2.  **Run the cells sequentially.** This allows direct inspection of the fuzzy logic implementation, data handling, and $\Delta T$ prediction visualization.
 
 This notebook includes:
 
@@ -99,17 +105,13 @@ This notebook includes:
 - HVAC decision logic
 - Example inputs and outputs
 
- **The examiner can run everything from this notebook alone — no need to run the full chatbot application.**
+**The examiner can run everything from this notebook alone — no need to run the full chatbot application.**
 
 The chatbot (`app.py`) is an optional extension that integrates the fuzzy system into a conversational assistant.
 
----
 
-##  Running Locally
 
-The project can be run in two ways:
-
-### Option 1: Full Web Assistant (Gradio)
+### Option 2: Full Web Assistant (Gradio)
 
 1.  **Git Clone:** Clone the project repository.
 2.  **Install Dependencies:**
@@ -124,13 +126,9 @@ The project can be run in two ways:
     ```bash
     python app.py
     ```
+---
 
-### Option 2: Easy Examination (Jupyter Notebook)
-
-1.  **Open `Fuzzy_system.ipynb`** in a Jupyter or Colab environment.
-2.  **Run the cells sequentially.** This allows direct inspection of the fuzzy logic implementation, data handling, and $\Delta T$ prediction visualization.
-
-## 🌐 Deployment Process
+##  Deployment Process
 
 This project is deployed on **Hugging Face Spaces** using **Gradio**. You can deploy by pushing the code to a Space, or by running the Jupyter Notebook `Fuzzy_system.ipynb` inside the Space.
 
