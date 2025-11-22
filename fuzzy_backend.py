@@ -297,4 +297,3 @@ def single_step(indoor_t, outdoor_t, co2, lighting):
         action = "OFF"
 
     return occ, delta_t, t_future, action
-
