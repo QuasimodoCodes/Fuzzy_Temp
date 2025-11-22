@@ -29,7 +29,6 @@ Uses CO₂ and Lighting levels to infer occupancy in the range **[0-1]**.
 
 * **Rule Example:** Low CO₂ and Dark room $\rightarrow$ Room is empty. High CO₂ and Bright room $\rightarrow$ Room is occupied.
 * **Mechanism:** Uses **6 fuzzy rules** with membership functions for **low/medium** and **high** inputs.
-
 ### 2. Fuzzy Temperature Prediction (15 Minutes Ahead)
 
 Predicts the temperature change ($\Delta T$) using a Mamdani FIS trained on the SML2010 dataset.
@@ -66,12 +65,51 @@ The user can interact with the system by:
 
 ##  Project Structure
 
-The project includes the full pipeline and visualization components: `Fuzzy_system.ipynb` contains the whole pipeline.
+The project includes the full pipeline and visualization components. **For examination and easy viewing of the logic and visualization, the primary component is the Jupyter Notebook:**
 
-The core assistant files are located under the `fuzzy-room-temperature-assistant/` directory:
+* **`Fuzzy_system.ipynb`**: Contains the **whole pipeline**, including logic, training, **visualization of fuzzy sets and rules**, and testing. **Examiners can run everything here without the full app setup.**
+* **Assistant Files:** Used for the deployed web application:
 
+    ```
+    fuzzy-room-temperature-assistant/
+              │
+              ├── app.py                 # Gradio + OpenAI chatbot interface
+              ├── fuzzy_backend.py       # Full fuzzy logic engine
+              ├── NEW-DATA-1.T15.txt     # SML2010 dataset slice
+              ├── requirements.txt
+              └── README.md
+    ```
+
+
+---
+
+##  Full Notebook Version (Recommended for Examiner)
+
+The easiest way for the examiner to review and run the entire system is through:
+
+**`Fuzzy_system.ipynb`**
+
+This notebook includes:
+
+- Complete fuzzy logic implementation
+- Occupancy detection
+- 15-minute temperature forecasting
+- All membership functions and fuzzy rules
+- Visualizations
+- HVAC decision logic
+- Example inputs and outputs
+
+ **The examiner can run everything from this notebook alone — no need to run the full chatbot application.**
+
+The chatbot (`app.py`) is an optional extension that integrates the fuzzy system into a conversational assistant.
+
+---
 
 ##  Running Locally
+
+The project can be run in two ways:
+
+### Option 1: Full Web Assistant (Gradio)
 
 1.  **Git Clone:** Clone the project repository.
 2.  **Install Dependencies:**
@@ -87,7 +125,12 @@ The core assistant files are located under the `fuzzy-room-temperature-assistant
     python app.py
     ```
 
-##  Deployment Process
+### Option 2: Easy Examination (Jupyter Notebook)
+
+1.  **Open `Fuzzy_system.ipynb`** in a Jupyter or Colab environment.
+2.  **Run the cells sequentially.** This allows direct inspection of the fuzzy logic implementation, data handling, and $\Delta T$ prediction visualization.
+
+## 🌐 Deployment Process
 
 This project is deployed on **Hugging Face Spaces** using **Gradio**. You can deploy by pushing the code to a Space, or by running the Jupyter Notebook `Fuzzy_system.ipynb` inside the Space.
 
