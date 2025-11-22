@@ -4,3 +4,4 @@ pandas
 scikit-fuzzy
 networkx
 scikit-learn
+openai
