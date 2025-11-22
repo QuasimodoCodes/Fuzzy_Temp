@@ -66,6 +66,5 @@ demo = gr.ChatInterface(
     description="Type: `21 12 400 60` (indoor, outdoor, CO₂, lighting)…",
 )
 
-
 if __name__ == "__main__":
     demo.launch()
