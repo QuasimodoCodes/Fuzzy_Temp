@@ -37,15 +37,13 @@ def chat_fn(message, history):
     nums = re.findall(r"[-+]?\d*\.?\d+", message)
     if len(nums) < 4:
         if client is None:
-            # no key available
             return (
-                    "I’m your **Smart HVAC Assistant** 🤖.\n\n"
-                    "Right now I can only run in *offline* mode because the "
-                    "`OPENAI_API_KEY` secret is not set on this Space.\n\n"
+                    "Hi, I’m your **Smart HVAC Assistant** 🤖\n\n"
+                    "To make a prediction, I need 4 numbers: indoor temperature, "
+                    "outdoor temperature, CO₂ and lighting.\n\n"
                     + HELP
             )
 
-        # simple LLM chat mode
         try:
             completion = client.chat.completions.create(
                 model="gpt-4o-mini",
@@ -53,8 +51,8 @@ def chat_fn(message, history):
                     {
                         "role": "system",
                         "content": (
-                            "You are a friendly smart building climate assistant. "
-                            "Answer questions about the app, HVAC, and fuzzy logic."
+                            "You are a friendly smart building assistant. "
+                            "Explain things in simple language, like to someone with no technical background."
                         ),
                     },
                     {"role": "user", "content": message},
@@ -64,17 +62,16 @@ def chat_fn(message, history):
             )
             return completion.choices[0].message.content
         except Exception as e:
-            return f"(LLM chat unavailable: {e})\n\n" + HELP
+            return f"(AI chat unavailable: {e})\n\n" + HELP
 
     # ------------------------------------------------------
-    # CASE 2: message has at least 4 numbers → fuzzy + LLM mode
+    # CASE 2: message has numbers → fuzzy + LLM mode
     # ------------------------------------------------------
     try:
         indoor, outdoor, co2, light = parse_message(message)
     except Exception as e:
         return f"{e}\n\n{HELP}"
 
-    # 2) Call fuzzy backend
     try:
         occ, dT, t_future, action = single_step(indoor, outdoor, co2, light)
     except Exception as e:
@@ -85,58 +82,53 @@ def chat_fn(message, history):
         )
 
     # --- short text for the action ---
-    action_text = {
-        "HEAT_ON": "Heat now (room will be too cold soon).",
-        "COOL_ON": "Cool now (room will be too warm soon).",
-        "IDLE": "Comfortable range – no action needed.",
-        "OFF": "Room probably empty – turn HVAC OFF to save energy.",
-    }.get(action, "")
+    if action == "HEAT_ON":
+        action_label = "turn on heating"
+        action_text = "The room will get too cold soon, so it’s best to start heating."
+    elif action == "COOL_ON":
+        action_label = "turn on cooling"
+        action_text = "The room will get too warm soon, so it’s best to start cooling."
+    elif action == "IDLE":
+        action_label = "keep the system on, but not heating or cooling"
+        action_text = "The temperature is already comfortable, so no change is needed."
+    else:  # OFF
+        action_label = "turn the HVAC off"
+        action_text = "The room looks empty, so you can turn the system off to save energy."
 
-    # --- interpretation of occupancy ---
+    # --- simple occupancy wording ---
     if occ >= 0.7:
-        occ_label = "I’m quite sure the room is occupied."
+        occ_label = "The room probably has people inside."
     elif occ >= 0.4:
-        occ_label = "The room might be occupied, but it’s not very clear."
+        occ_label = "The room might have some people, but I’m not fully sure."
     else:
-        occ_label = "It looks like the room is mostly empty."
+        occ_label = "The room seems mostly empty."
 
-    # --- smart assistant storytelling ---
-    story = (
-        "🏠 **Smart Climate Assistant Insight**\n"
-        "I analyzed your room using indoor/outdoor temperature, CO₂ levels, lighting, "
-        "and fuzzy occupancy detection. Based on the predicted temperature 15 minutes "
-        "from now and whether the room seems occupied, I calculated the best HVAC action "
-        "to balance comfort and energy savings.\n\n"
-        f"- Fuzzy occupancy: **{occ:.2f}** → {occ_label}\n"
-        f"- Predicted temperature in 15 minutes: **{t_future:.2f} °C** "
-        f"(change of {dT:+.3f} °C from now)."
+    # --- quick human-friendly summary ---
+    summary = (
+        "### 🧾 Simple summary\n"
+        f"- **Now:** about **{indoor:.1f} °C** inside\n"
+        f"- **In 15 minutes:** I expect about **{t_future:.1f} °C**\n"
+        f"- **Room use:** {occ_label}\n\n"
+        f"👉 So, my suggestion is to **{action_label}**.\n"
+        f"{action_text}\n"
     )
 
-    # --- turn ON / OFF recommendation ---
-    if action == "HEAT_ON":
-        recommendation = "Turn **ON heating**."
-    elif action == "COOL_ON":
-        recommendation = "Turn **ON cooling**."
-    elif action == "IDLE":
-        recommendation = "Keep the HVAC **ON but idle** (no heating or cooling needed)."
-    else:  # OFF
-        recommendation = "Turn the HVAC **OFF** to save energy."
-
-    # --- LLM-generated explanation (optional, safe if unavailable) ---
+    # --- LLM explanation in very simple words ---
     if client is None:
-        explanation = "(LLM explanation unavailable: missing `OPENAI_API_KEY` secret.)"
+        explanation = "(AI explanation unavailable: missing `OPENAI_API_KEY` secret.)"
     else:
         prompt = (
-            "You are an intelligent HVAC assistant for a smart building.\n"
-            "Explain in 2–3 simple sentences why this is the right decision.\n\n"
+            "You are an intelligent HVAC assistant for a smart home.\n"
+            "Explain this decision in 2–3 very simple sentences. "
+            "Imagine you are talking to someone with no technical background. "
+            "Avoid jargon like 'fuzzy logic', 'ΔT', 'occupancy index'.\n\n"
             f"Indoor temperature: {indoor:.2f} °C\n"
             f"Outdoor temperature: {outdoor:.2f} °C\n"
             f"CO₂: {co2:.1f} ppm\n"
             f"Lighting: {light:.1f}\n"
-            f"Fuzzy occupancy (0–1): {occ:.2f}\n"
-            f"Predicted 15-min temperature: {t_future:.2f} °C\n"
-            f"Temperature change (ΔT): {dT:+.3f} °C\n"
-            f"Chosen HVAC action: {action}\n"
+            f"Occupancy score (0–1): {occ:.2f}\n"
+            f"Predicted temperature in 15 minutes: {t_future:.2f} °C\n"
+            f"Chosen action: {action} ({action_label})\n"
         )
         try:
             completion = client.chat.completions.create(
@@ -144,7 +136,10 @@ def chat_fn(message, history):
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are a smart building climate assistant. Be clear, concise, and non-technical.",
+                        "content": (
+                            "You are a friendly, non-technical assistant. "
+                            "Use short, clear sentences and everyday words."
+                        ),
                     },
                     {"role": "user", "content": prompt},
                 ],
@@ -153,29 +148,30 @@ def chat_fn(message, history):
             )
             explanation = completion.choices[0].message.content
         except Exception as e:
-            explanation = f"(LLM explanation unavailable: {e})"
+            explanation = f"(AI explanation unavailable: {e})"
 
-    # --- numeric summary + story + final recommendation + LLM explanation ---
-    return (
-        f"**Inputs**\n"
-        f"- Indoor T: `{indoor:.2f} °C`\n"
+    # --- technical details (for engineers) ---
+    details = (
+        "### 🔧 Technical details (optional)\n"
+        f"- Indoor T now: `{indoor:.2f} °C`\n"
         f"- Outdoor T: `{outdoor:.2f} °C`\n"
         f"- CO₂: `{co2:.1f} ppm`\n"
-        f"- Lighting: `{light:.1f}`\n\n"
-        f"**Fuzzy occupancy**: `{occ:.2f}` (0–1)\n"
-        f"ΔT next 15 min: `{dT:+.3f} °C`\n"
-        f"Predicted T in 15 min: `{t_future:.2f} °C`\n\n"
-        f"**HVAC suggestion**: **{action}**\n"
-        f"{action_text}\n\n"
-        f"---\n"
-        f"{story}\n\n"
-        f"---\n"
-        f"### ✅ Final Recommendation\n"
-        f"**{recommendation}**\n\n"
-        f"---\n"
-        f"### 🤖 AI Explanation\n"
-        f"{explanation}"
+        f"- Lighting: `{light:.1f}`\n"
+        f"- Occupancy score: `{occ:.2f}` (0–1)\n"
+        f"- Estimated change in 15 minutes: `{dT:+.3f} °C`\n"
+        f"- Predicted T in 15 minutes: `{t_future:.2f} °C`\n"
+        f"- Fuzzy HVAC action: **{action}**\n"
     )
+
+    return (
+            summary
+            + "\n---\n"
+            + "### 🤖 AI explanation\n"
+            + explanation
+            + "\n\n---\n"
+            + details
+    )
+
 
 
 demo = gr.ChatInterface(
