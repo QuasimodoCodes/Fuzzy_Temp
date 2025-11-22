@@ -15,7 +15,7 @@ Try the interactive chatbot below:
 
 ---
 
-##  Project Implementation & Core Logic
+##  Project Implementation and Core Logic
 
 This assistant uses a combination of technologies: **Fuzzy Logic** for occupancy and prediction, a **Mamdani FIS** for action selection, an **OpenAI LLM** for explanations, and **Gradio** for the UI.
 
@@ -68,17 +68,18 @@ The user can interact with the system by:
 The project includes the full pipeline and visualization components. **For examination and easy viewing of the logic and visualization, the primary component is the Jupyter Notebook:**
 
 * **`Fuzzy_system.ipynb`**: Contains the **whole pipeline**, including logic, training, **visualization of fuzzy sets and rules**, and testing. **Examiners can run everything here without the full app setup.**
-* **Assistant Files:** Used for the deployed web application:
+  * **Assistant Files:** Used for the deployed web application:
 
-    ```
-    fuzzy-room-temperature-assistant/
-              │
-              ├── app.py                 # Gradio + OpenAI chatbot interface
-              ├── fuzzy_backend.py       # Full fuzzy logic engine
-              ├── NEW-DATA-1.T15.txt     # SML2010 dataset slice
+      ```
+      fuzzy-room-temperature-assistant/
+                
+              ├── app.py 
+              ├── fuzzy_backend.py 
+              ├── Fuzzy_system.ipynb  
+              ├── NEW-DATA-1.T15.txt 
               ├── requirements.txt
               └── README.md
-    ```
+      ```
 
 
 ---
