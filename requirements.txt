@@ -2,6 +2,6 @@ gradio
 numpy
 pandas
 scikit-fuzzy
-networkx
 scikit-learn
+networkx
 openai
