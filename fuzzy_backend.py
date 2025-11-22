@@ -270,7 +270,19 @@ def single_step(indoor_t, outdoor_t, co2, lighting):
     sim.input["outdoor"] = float(outdoor_t)
     sim.input["occupancy"] = float(occ)
     sim.compute()
-    delta_t = float(np.clip(sim.output["delta"], d_lo, d_hi))
+
+    # sometimes no rule fires → 'delta' missing, so fall back safely
+    if "delta" in sim.output:
+        raw_delta = sim.output["delta"]
+    else:
+        # log something to HF logs for debugging
+        print(
+            f"[WARN] No 'delta' output for inputs: "
+            f"indoor={indoor_t}, outdoor={outdoor_t}, occ={occ}"
+        )
+        raw_delta = 0.0  # assume no change as a safe default
+
+    delta_t = float(np.clip(raw_delta, d_lo, d_hi))
     t_future = indoor_t + delta_t
 
     # 3) HVAC action
@@ -285,3 +297,4 @@ def single_step(indoor_t, outdoor_t, co2, lighting):
         action = "OFF"
 
     return occ, delta_t, t_future, action
+
