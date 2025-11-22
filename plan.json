@@ -1,0 +1,82 @@
+{
+  "project_name": "Fuzzy Temperature Prediction System",
+  "description": "Mamdani Fuzzy Inference System for short-term room temperature prediction using SML2010 dataset - Group Project Setup Phase",
+  "current_phase": "Initial Setup",
+  "steps": [
+    {
+      "step_number": 1,
+      "description": "Create main.ipynb with basic imports (numpy, pandas, matplotlib) and load data from data/ folder",
+      "status": "complete"
+    },
+    {
+      "step_number": 2,
+      "description": "Understand and document dataset structure - identify columns and their meanings",
+      "status": "pending"
+    },
+    {
+      "step_number": 3,
+      "description": "Add column names to dataframe based on SML2010 documentation",
+      "status": "pending"
+    },
+    {
+      "step_number": 4,
+      "description": "Basic data cleaning - handle missing values, check data types, remove outliers",
+      "status": "pending"
+    },
+    {
+      "step_number": 5,
+      "description": "Install and import scikit-fuzzy library for fuzzy logic operations",
+      "status": "pending"
+    },
+    {
+      "step_number": 6,
+      "description": "Engineer key features: setpoint error, heat-loss proxy, and HVAC power signal",
+      "status": "pending"
+    },
+    {
+      "step_number": 7,
+      "description": "Define fuzzy input variables and their membership functions (error, heat_loss, hvac_power)",
+      "status": "pending"
+    },
+    {
+      "step_number": 8,
+      "description": "Define fuzzy output variable and membership functions (delta_temp)",
+      "status": "pending"
+    },
+    {
+      "step_number": 9,
+      "description": "Create fuzzy rules (10-15 intuitive rules based on domain knowledge)",
+      "status": "pending"
+    },
+    {
+      "step_number": 10,
+      "description": "Implement fuzzy inference system: fuzzification, rule evaluation, and defuzzification",
+      "status": "pending"
+    },
+    {
+      "step_number": 11,
+      "description": "Create prediction function to compute future temperature T_pred(t+15) = T_current(t) + ΔT_FIS",
+      "status": "pending"
+    },
+    {
+      "step_number": 12,
+      "description": "Implement baseline models: Naïve persistence and Linear regression",
+      "status": "pending"
+    },
+    {
+      "step_number": 13,
+      "description": "Evaluate all models using RMSE, MAE, and comfort range metrics",
+      "status": "pending"
+    },
+    {
+      "step_number": 14,
+      "description": "Create visualizations: predicted vs actual temperature plots, error distributions",
+      "status": "pending"
+    },
+    {
+      "step_number": 15,
+      "description": "Generate final report and comparison summary",
+      "status": "pending"
+    }
+  ]
+}
