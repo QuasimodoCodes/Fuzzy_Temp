@@ -31,7 +31,44 @@ def parse_message(msg: str):
 
 
 def chat_fn(message, history):
-    # 1) Parse user input
+    # ------------------------------------------------------
+    # CASE 1: message does NOT have 4 numbers → pure LLM chat
+    # ------------------------------------------------------
+    nums = re.findall(r"[-+]?\d*\.?\d+", message)
+    if len(nums) < 4:
+        if client is None:
+            # no key available
+            return (
+                    "I’m your **Smart HVAC Assistant** 🤖.\n\n"
+                    "Right now I can only run in *offline* mode because the "
+                    "`OPENAI_API_KEY` secret is not set on this Space.\n\n"
+                    + HELP
+            )
+
+        # simple LLM chat mode
+        try:
+            completion = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": (
+                            "You are a friendly smart building climate assistant. "
+                            "Answer questions about the app, HVAC, and fuzzy logic."
+                        ),
+                    },
+                    {"role": "user", "content": message},
+                ],
+                max_tokens=200,
+                temperature=0.6,
+            )
+            return completion.choices[0].message.content
+        except Exception as e:
+            return f"(LLM chat unavailable: {e})\n\n" + HELP
+
+    # ------------------------------------------------------
+    # CASE 2: message has at least 4 numbers → fuzzy + LLM mode
+    # ------------------------------------------------------
     try:
         indoor, outdoor, co2, light = parse_message(message)
     except Exception as e:
@@ -145,9 +182,9 @@ demo = gr.ChatInterface(
     fn=chat_fn,
     title="Smart HVAC Fuzzy Assistant",
     description=(
-        "Type: `21 12 400 60` (indoor, outdoor, CO₂, lighting) and I will "
-        "predict T in 15 minutes, infer occupancy, choose HEAT / COOL / IDLE / OFF, "
-        "and explain the decision using an AI assistant."
+        "Ask questions like 'who are you?' or send `21 12 400 60` "
+        "(indoor, outdoor, CO₂, lighting). "
+        "For numeric input I will run fuzzy logic + LLM; for other text I will reply as a smart HVAC assistant."
     ),
 )
 
