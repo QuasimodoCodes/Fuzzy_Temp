@@ -5,3 +5,5 @@ scikit-fuzzy
 scikit-learn
 networkx
 openai
+matplotlib
+seaborn
