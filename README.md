@@ -2,6 +2,30 @@
 
 An intelligent building assistant designed to make smart, explainable heating, ventilation, and air conditioning (HVAC) decisions.
 
+# How to run the project locally
+
+## 1) Clone the Project
+    ```
+        git clone https://github.com/QuasimodoCodes/Fuzzy_Temp.git
+        cd Fuzzy_Temp
+    ```
+## 2) Create and  Activate Virtual Environment
+
+python -m venv .venv
+# Windows
+.venv\Scripts\activate
+# macOS / Linux
+source .venv/bin/activate
+
+## 3) Install Requirements
+pip install -r requirements.txt
+pip install jupyter
+
+## 4) Run the Jupyter Notebook and open
+Fuzzy_system.ipynb
+
+This notebook includes data loading, preprocessing, fuzzy membership functions, and the full 15-minute temperature forecasting pipeline.
+
 ##  Live Demo
 
 Try the interactive chatbot below:
