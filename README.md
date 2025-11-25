@@ -5,7 +5,7 @@ An intelligent building assistant designed to make smart, explainable heating, v
 # How to run the project locally
 
 ## 1) Clone the Project
-    ```
+    ``` bash
     git clone https://github.com/QuasimodoCodes/Fuzzy_Temp.git
     cd Fuzzy_Temp
     ```
