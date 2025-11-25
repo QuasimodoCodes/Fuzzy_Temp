@@ -11,18 +11,22 @@ cd Fuzzy_Temp
 ```
 ## 2) Create and  Activate Virtual Environment
 
+```bash
 python -m venv .venv
-# Windows
 .venv\Scripts\activate
-# macOS / Linux
-source .venv/bin/activate
-
+```
 ## 3) Install Requirements
+```bash
 pip install -r requirements.txt
-pip install jupyter
+```
 
+```bash
+pip install jupyter
+```
 ## 4) Run the Jupyter Notebook and open
+```bash
 Fuzzy_system.ipynb
+```
 
 This notebook includes data loading, preprocessing, fuzzy membership functions, and the full 15-minute temperature forecasting pipeline.
 
