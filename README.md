@@ -2,7 +2,7 @@
 
 An intelligent building assistant designed to make smart, explainable heating, ventilation, and air conditioning (HVAC) decisions.
 
-#🌱 How to run the project locally
+# 🌱 How to run the project locally
 
 ## 1) Clone the Project
 ```bash
@@ -45,7 +45,25 @@ This notebook includes:
 **The examiner can run everything from this notebook alone — no need to run the full chatbot application.**
 
 --- 
-##🌱  Live Demo
+## 🌱 Project Structure
+
+The project includes the full pipeline and visualization components. **For examination and easy viewing of the logic and visualization, the primary component is the Jupyter Notebook:**
+
+* **`Fuzzy_system.ipynb`**: Contains the **whole pipeline**, including logic, training, **visualization of fuzzy sets and rules**, and testing. **Examiners can run everything here without the full app setup.**
+  * **Assistant Files:** Used for the deployed web application:
+
+      ```
+      fuzzy-room-temperature-assistant/
+                
+              ├── app.py 
+              ├── fuzzy_backend.py 
+              ├── Fuzzy_system.ipynb  
+              ├── NEW-DATA-1.T15.txt 
+              ├── requirements.txt
+              └── README.md
+      ```
+--- 
+## 🌱 Live Demo
 
 Try the interactive chatbot below:
 
@@ -58,7 +76,7 @@ Try the interactive chatbot below:
 
 ---
 
-##🌱  Project Implementation and Core Logic
+## 🌱 Project Implementation and Core Logic
 
 This assistant uses a combination of technologies: **Fuzzy Logic** for occupancy and prediction, a **Mamdani FIS** for action selection, an **OpenAI LLM** for explanations, and **Gradio** for the UI.
 
@@ -106,39 +124,12 @@ The user can interact with the system by:
 
 ---
 
-##🌱  Project Structure
 
-The project includes the full pipeline and visualization components. **For examination and easy viewing of the logic and visualization, the primary component is the Jupyter Notebook:**
-
-* **`Fuzzy_system.ipynb`**: Contains the **whole pipeline**, including logic, training, **visualization of fuzzy sets and rules**, and testing. **Examiners can run everything here without the full app setup.**
-  * **Assistant Files:** Used for the deployed web application:
-
-      ```
-      fuzzy-room-temperature-assistant/
-                
-              ├── app.py 
-              ├── fuzzy_backend.py 
-              ├── Fuzzy_system.ipynb  
-              ├── NEW-DATA-1.T15.txt 
-              ├── requirements.txt
-              └── README.md
-      ```
-
-
----
-
-
-##🌱  Running Locally
-
-The project can be run in two ways:
-
-
-
-##  Deployment Process
+##  🌱 Deployment Process
 
 This project is deployed on **Hugging Face Spaces** using **Gradio**. You can deploy by pushing the code to a Space, or by running the Jupyter Notebook `Fuzzy_system.ipynb` inside the Space.
 
-##  Dataset
+##  🌱 Dataset
 
 The model uses a slice of the **SML 2010 Smart Home Dataset**, specifically `NEW-DATA-1.T15.txt`.
 
