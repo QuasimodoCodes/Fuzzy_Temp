@@ -8,7 +8,7 @@ An intelligent building assistant designed to make smart, explainable heating, v
 ```bash
 git clone https://github.com/QuasimodoCodes/Fuzzy_Temp.git
 cd Fuzzy_Temp
-
+```
 ## 2) Create and  Activate Virtual Environment
 
 python -m venv .venv
