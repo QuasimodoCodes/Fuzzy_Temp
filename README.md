@@ -2,7 +2,7 @@
 
 An intelligent building assistant designed to make smart, explainable heating, ventilation, and air conditioning (HVAC) decisions.
 
-# How to run the project locally
+#🌱 How to run the project locally
 
 ## 1) Clone the Project
 ```bash
@@ -27,10 +27,25 @@ pip install jupyter
 ```bash
 Fuzzy_system.ipynb
 ```
+The easiest way for the examiner to review and run the entire system is through:
 
-This notebook includes data loading, preprocessing, fuzzy membership functions, and the full 15-minute temperature forecasting pipeline.
+1.  **Open `Fuzzy_system.ipynb`** in a Jupyter or Colab environment.
+2.  **Run the cells sequentially.** This allows direct inspection of the fuzzy logic implementation, data handling, and $\Delta T$ prediction visualization.
 
-##  Live Demo
+This notebook includes:
+
+- Complete fuzzy logic implementation
+- Occupancy detection
+- 15-minute temperature forecasting
+- All membership functions and fuzzy rules
+- Visualizations
+- HVAC decision logic
+- Example inputs and outputs
+
+**The examiner can run everything from this notebook alone — no need to run the full chatbot application.**
+
+--- 
+##🌱  Live Demo
 
 Try the interactive chatbot below:
 
@@ -43,7 +58,7 @@ Try the interactive chatbot below:
 
 ---
 
-##  Project Implementation and Core Logic
+##🌱  Project Implementation and Core Logic
 
 This assistant uses a combination of technologies: **Fuzzy Logic** for occupancy and prediction, a **Mamdani FIS** for action selection, an **OpenAI LLM** for explanations, and **Gradio** for the UI.
 
@@ -91,7 +106,7 @@ The user can interact with the system by:
 
 ---
 
-##  Project Structure
+##🌱  Project Structure
 
 The project includes the full pipeline and visualization components. **For examination and easy viewing of the logic and visualization, the primary component is the Jupyter Notebook:**
 
@@ -113,49 +128,11 @@ The project includes the full pipeline and visualization components. **For exami
 ---
 
 
-##  Running Locally
+##🌱  Running Locally
 
 The project can be run in two ways:
 
-### Option 1: Easy Examination (Jupyter Notebook)
 
-The easiest way for the examiner to review and run the entire system is through:
-
-1.  **Open `Fuzzy_system.ipynb`** in a Jupyter or Colab environment.
-2.  **Run the cells sequentially.** This allows direct inspection of the fuzzy logic implementation, data handling, and $\Delta T$ prediction visualization.
-
-This notebook includes:
-
-- Complete fuzzy logic implementation
-- Occupancy detection
-- 15-minute temperature forecasting
-- All membership functions and fuzzy rules
-- Visualizations
-- HVAC decision logic
-- Example inputs and outputs
-
-**The examiner can run everything from this notebook alone — no need to run the full chatbot application.**
-
-The chatbot (`app.py`) is an optional extension that integrates the fuzzy system into a conversational assistant.
-
-
-
-### Option 2: Full Web Assistant (Gradio)
-
-1.  **Git Clone:** Clone the project repository.
-2.  **Install Dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-3.  **Add Your OpenAI Key:** Generate your key and set the environment variable:
-    ```bash
-    export OPENAI_API_KEY=your_key_here
-    ```
-4.  **Run Application:**
-    ```bash
-    python app.py
-    ```
----
 
 ##  Deployment Process
 
