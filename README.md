@@ -6,18 +6,18 @@ An intelligent building assistant designed to make smart, explainable heating, v
 
 # 🌱 How to run the project locally
 
-## 1) Clone the Project
+### 1) Clone the Project
 ```bash
 git clone https://github.com/QuasimodoCodes/Fuzzy_Temp.git
 cd Fuzzy_Temp
 ```
-## 2) Create and  Activate Virtual Environment
+### 2) Create and  Activate Virtual Environment
 
 ```bash
 python -m venv .venv
 .venv\Scripts\activate
 ```
-## 3) Install Requirements
+### 3) Install Requirements
 ```bash
 pip install -r requirements.txt
 ```
@@ -25,7 +25,7 @@ pip install -r requirements.txt
 ```bash
 pip install jupyter
 ```
-## 4) Run the Jupyter Notebook and open
+### 4) Run the Jupyter Notebook and open
 ```bash
 Fuzzy_system.ipynb
 ```
