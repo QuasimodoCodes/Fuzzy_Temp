@@ -4,7 +4,7 @@
 
 An intelligent building assistant designed to make smart, explainable heating, ventilation, and air conditioning (HVAC) decisions.
 
-# 🌱 How to run the project locally
+## 🌱 How to run the project locally
 
 ### 1) Clone the Project
 ```bash
