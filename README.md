@@ -1,6 +1,5 @@
 #  Group: D2
-## Development of a HVAC, Two - stage Fuzzy Logic System for Occupancy Detection and 15 Minute Temperature Forecasting using the SML2010 Dataset
-
+## Development and Simulation of a Fuzzy Logic System (FIS) for Intelligent Room Temperature Prediction Using the SML2010 Dataset.
 
 An intelligent building assistant designed to make smart, explainable heating, ventilation, and air conditioning (HVAC) decisions.
 
